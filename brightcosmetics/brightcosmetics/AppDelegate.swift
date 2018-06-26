@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     static let moltinId = "u8cV0fAtS8ELXcyxWY2r4deLTHs1i3NkgV8rt7ZqWX"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
+        MoltinManager.instance().getProducts()
         MoltinManager.instance().setMoltinToken()
 
         return true

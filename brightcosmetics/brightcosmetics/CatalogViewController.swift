@@ -51,9 +51,6 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate, UIColle
         self.product = MoltinManager.instance().getProducts()
         //get all cat
         self.categories = MoltinManager.instance().getCategories()
-        //make call for each cat
-//        let catIds = self.categories.map({ $0.products?[0].id})
-//        let cat = self.product.map({ $0.categories?[0].name})
 
         for products in self.product  {
             if  (products.categories![0].name == "Body Skincare") {

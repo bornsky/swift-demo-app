@@ -31,7 +31,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Izn-aN-86n" id="eUu-e9-czm"/>
-                                    <outlet property="delegate" destination="Izn-aN-86n" id="vSZ-re-dfh"/>
+                                    <outlet property="delegate" destination="Izn-aN-86n" id="ivg-6T-HC9"/>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fsc-iu-3zu">
@@ -640,6 +640,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="dhZ-0e-xu3"/>
-        <segue reference="lAI-NC-pgF"/>
+        <segue reference="OXP-IZ-QhV"/>
     </inferredMetricsTieBreakers>
 </document>

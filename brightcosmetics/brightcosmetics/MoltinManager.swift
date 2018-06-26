@@ -139,11 +139,11 @@ class MoltinManager : NSObject {
     
     //MARK: CART
     //add item to cart
-    public func addItemToCart(cartId: String?, productId: String) -> (Bool){
+    public func addItemToCart(cartId: String?, productId: String, qty: Int) -> (Bool){
         var itemAdded = false
-        self.moltin.cart.addProduct(withID: productId , ofQuantity: 1, toCart: AppDelegate.cartID, completionHandler: { (_) in
-            self.semaphore.signal()
+        self.moltin.cart.addProduct(withID: productId , ofQuantity: qty, toCart: AppDelegate.cartID, completionHandler: { (_) in
             itemAdded = true
+            self.semaphore.signal()
         })
         self.semaphore.wait()
         return itemAdded

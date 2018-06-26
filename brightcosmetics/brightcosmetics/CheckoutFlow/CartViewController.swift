@@ -86,9 +86,10 @@ class CartViewController: UIViewController {
         self.performSegue(withIdentifier: "cartToCheckoutDetail", sender: nil)
     }
     
+    
 }
 
-    extension CartViewController: UITableViewDelegate, UITableViewDataSource {
+    extension CartViewController:  UITableViewDataSource, CartTableViewCellDelegate, UITableViewDelegate {
         
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return self.cartItems.count
@@ -98,15 +99,12 @@ class CartViewController: UIViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CartCell", for: indexPath) as! CartTableViewCell
             let cartItem = self.cartItems[indexPath.row]
             let cartProduct: Product = self.productsInCart[indexPath.row]
-
-            
+            cell.delegate = self
             cell.displayProducts(cartProduct: cartItem, product: cartProduct)
             
             return cell
         }
-        
-        
-        
+
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             let title = "Click checkout to test order"
             let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
@@ -114,24 +112,38 @@ class CartViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
         }
         
-        func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-            return true
+        
+        
+        func cartTableViewCellDidTapTrash(_ sender: CartTableViewCell) {
+            guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
+            
+            // Delete the row
+            _ = MoltinManager.instance().removeItemFromCart(cartId: "", productId: self.cartItems[tappedIndexPath.row].id)
+            self.cartItems.remove(at: tappedIndexPath.row)
+            tableView.deleteRows(at: [tappedIndexPath], with: .automatic)
+            tableView.reloadData()
         }
         
-        func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-            return "Remove from cart"
-        }
-        
-        func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-            if (editingStyle == UITableViewCellEditingStyle.delete) {
-                self.cartItems.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .automatic)
+        func cartTableViewCellDidTapAddProduct(_ sender: CartTableViewCell) {
+            guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
+//            var currentQty = self.cartItems[tappedIndexPath.row].quantity
+//            currentQty += 1
+            // add product
+            let itemAdded = MoltinManager.instance().addItemToCart(cartId: "", productId: self.productsInCart[tappedIndexPath.row].id, qty: 1)
+            
+            if itemAdded {
+                //update cart items
+                let cartItems = MoltinManager.instance().getCartItems(cartId: "")
+                self.cartItems = cartItems
+                tableView.reloadData()
             }
         }
         
         func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
             return 180.0
         }
+        
+        
         
 }
 

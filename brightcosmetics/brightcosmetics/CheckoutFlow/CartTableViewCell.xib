@@ -55,8 +55,11 @@
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q12-hx-zzY">
                         <rect key="frame" x="219" y="125" width="130" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <connections>
+                            <action selector="trashProductPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="aj0-LO-NO7"/>
+                        </connections>
                     </button>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="trash-2" translatesAutoresizingMaskIntoConstraints="NO" id="SoF-Xp-n4Z">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="trash-2" translatesAutoresizingMaskIntoConstraints="NO" id="SoF-Xp-n4Z">
                         <rect key="frame" x="271" y="135" width="26" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>

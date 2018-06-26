@@ -8,7 +8,16 @@
 
 import UIKit
 import moltin
+
+protocol CartTableViewCellDelegate : class {
+    func cartTableViewCellDidTapTrash(_ sender: CartTableViewCell)
+    func cartTableViewCellDidTapAddProduct(_ sender: CartTableViewCell)
+}
+
+
 class CartTableViewCell: UITableViewCell {
+    
+    weak var delegate: CartTableViewCellDelegate?
 
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var productName: UILabel!
@@ -20,7 +29,7 @@ class CartTableViewCell: UITableViewCell {
     
     var cartCellItem: moltin.CartItem?
     var productCellItem: moltin.Product?
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -59,12 +68,12 @@ class CartTableViewCell: UITableViewCell {
     
     @IBAction func trashProductPressed(_ sender: Any) {
         //remove itemx
-        _ = MoltinManager.instance().removeItemFromCart(cartId: "", productId: self.cartCellItem?.id ?? "")
+        delegate?.cartTableViewCellDidTapTrash(self)
         
     }
     @IBAction func addQtyPressed(_ sender: Any) {
         //add qty of product
-        MoltinManager.instance().addItemToCart(cartId: "", productId: self.productCellItem?.id ?? "")
+        delegate?.cartTableViewCellDidTapAddProduct(self)
     }
     
 }
