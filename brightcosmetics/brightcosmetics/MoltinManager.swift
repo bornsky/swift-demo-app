@@ -14,7 +14,6 @@ class MoltinManager : NSObject {
     let moltinAPI = DispatchGroup()
     let defaults = UserDefaults.standard
     
-    //Moltin Objects
     let moltin: Moltin = Moltin(withClientID: AppDelegate.moltinId)
 
     var categories: [moltin.Category] = []
@@ -23,14 +22,6 @@ class MoltinManager : NSObject {
     var cartItems: [CartItem] = Array()
     var cart: Cart?
     
-    var promoCodes: [String] = Array()
-    
-    //Set up to make manual api calls
-    var moltinToken: String = ""
-    let moltinHeaders = [
-        "Accept": "application/json",
-        "Content-Type": "application/x-www-form-urlencoded"
-    ]
 
     private static let instanceVar = MoltinManager()
 
@@ -44,6 +35,15 @@ class MoltinManager : NSObject {
         return instanceVar
     }
     
+    var promoCodes: [String] = Array()
+
+    
+    //Set up to make manual api calls
+    var moltinToken: String = ""
+    let moltinHeaders = [
+        "Accept": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded"
+    ]
     
     public func setMoltinToken() {
         //Get token for non-sdk api calls

@@ -121,13 +121,17 @@ class CartViewController: UIViewController {
             _ = MoltinManager.instance().removeItemFromCart(cartId: "", productId: self.cartItems[tappedIndexPath.row].id)
             self.cartItems.remove(at: tappedIndexPath.row)
             tableView.deleteRows(at: [tappedIndexPath], with: .automatic)
+            let cartItems = MoltinManager.instance().getCartItems(cartId: "")
+            let cart = MoltinManager.instance().getCart(cartId: "")
+            self.cartItems = cartItems
+            self.amountInCartLabel.text = String(self.cartItems.count)
+            self.amountLabel.text = "Subtotal: \(cart.meta?.displayPrice.withTax.formatted ?? "")"
+
             tableView.reloadData()
         }
         
         func cartTableViewCellDidTapAddProduct(_ sender: CartTableViewCell) {
             guard let tappedIndexPath = tableView.indexPath(for: sender) else { return }
-//            var currentQty = self.cartItems[tappedIndexPath.row].quantity
-//            currentQty += 1
             // add product
             let itemAdded = MoltinManager.instance().addItemToCart(cartId: "", productId: self.productsInCart[tappedIndexPath.row].id, qty: 1)
             
@@ -135,6 +139,10 @@ class CartViewController: UIViewController {
                 //update cart items
                 let cartItems = MoltinManager.instance().getCartItems(cartId: "")
                 self.cartItems = cartItems
+                let cart = MoltinManager.instance().getCart(cartId: "")
+
+                self.amountInCartLabel.text = String(self.cartItems.count)
+                self.amountLabel.text = "Subtotal: \(cart.meta?.displayPrice.withTax.formatted ?? "")"
                 tableView.reloadData()
             }
         }

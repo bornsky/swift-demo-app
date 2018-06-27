@@ -8,6 +8,8 @@
 
 import UIKit
 import moltin
+import PassKit
+
 
 class CheckoutPaymentViewController: UIViewController {
 
@@ -33,11 +35,18 @@ class CheckoutPaymentViewController: UIViewController {
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var creditCardInputView: UIView!
     
-    
+    let SupportedPaymentNetworks = [PKPaymentNetwork.visa, PKPaymentNetwork.masterCard, PKPaymentNetwork.amex]
+    let ApplePaySwagMerchantID = "merchant.com.YOURDOMAIN.ApplePayMoltin" // Fill in your merchant ID here!
+    var applePay: Bool = false
+
     var customerName: String = "George Fitz"
     var customerEmail: String = "George.fitz@moltin.com"
     var firstName: String = "george"
     var lastName: String = "Fitz"
+    
+    var cartItems: [moltin.CartItem] = Array()
+    var cart: moltin.Cart?
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,6 +87,12 @@ class CheckoutPaymentViewController: UIViewController {
             self.firstName = nameComponents.removeFirst()
             self.lastName = nameComponents.joined(separator: " ")
         }
+        
+        //apple pay stuff
+        self.applePayButtonLabel.isHidden = !PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: SupportedPaymentNetworks)
+
+        self.cartItems = MoltinManager.instance().getCartItems(cartId: "")
+        self.cart = MoltinManager.instance().getCart(cartId: "")
 
     }
     
@@ -96,10 +111,9 @@ class CheckoutPaymentViewController: UIViewController {
         self.csvTextInput.isHidden = true
         self.creditCardDetailLabel.isHidden = true
         self.ccMMYYTextInput.isHidden = true
-        
-        
+        self.applePay = true
+
         self.applyPayCheckmark.isHidden = false
-        //pullup apple pay
     }
     
     @IBAction func creditCardPressed(_ sender: Any) {
@@ -127,21 +141,70 @@ class CheckoutPaymentViewController: UIViewController {
     }
     
     @IBAction func orderConfirmationPressed(_ sender: Any) {
-        let customer = Customer(withEmail: customerEmail, withName: self.customerName)
-        let address = Address(withFirstName: self.firstName, withLastName: self.lastName)
-        address.line1 = "472"
-        address.county = "Suffolk"
-        address.country = "Fiction"
-        address.postcode = "02124"
-        
-        //Check out the order
-        let order = MoltinManager.instance().checkoutOrder(customer: customer, address: address)
+        //if apple pay or CC
+        if applePay {
+            let request = PKPaymentRequest()
 
+            request.merchantIdentifier = ApplePaySwagMerchantID
+            request.supportedNetworks = SupportedPaymentNetworks
+            request.merchantCapabilities = PKMerchantCapability.capability3DS
+            request.countryCode = "US"
+            request.currencyCode = "USD"
+            request.requiredShippingContactFields = [.name, .postalAddress]
+
+            let applyPayFormatter = NumberFormatter()
+            applyPayFormatter.usesGroupingSeparator = true
+            applyPayFormatter.numberStyle = .decimal
+            
+            //Shipping + Tax
+            let product = PKPaymentSummaryItem(label: "Products", amount: NSDecimalNumber(decimal:Decimal(self.cartItems[0].meta.displayPrice.withTax.value.amount/100)), type: .final)
+            let shipping = PKPaymentSummaryItem(label: "Shipping", amount: NSDecimalNumber(decimal:1.00), type: .final)
+            let tax = PKPaymentSummaryItem(label: "Total", amount: NSDecimalNumber(decimal:3.00), type: .final)
+            
+            let total = PKPaymentSummaryItem(label: "Tax", amount: NSDecimalNumber(decimal:Decimal((self.cart?.meta?.displayPrice.withTax.amount)!/100)), type: .final)
+            
+            request.paymentSummaryItems = [product, shipping, tax, total]
+            let applePayController = PKPaymentAuthorizationViewController(paymentRequest: request)
+            applePayController?.delegate = self
+
+            self.present(applePayController!, animated: true, completion: nil)
+        }
         
-        let Storyboard = UIStoryboard.init(name: "CheckoutFlow", bundle: nil)
-        let vc = Storyboard.instantiateViewController(withIdentifier:"CheckoutConfirmation") as? CheckoutConfirmationViewController
-        vc?.orderId = order
-        self.present(vc!, animated: true, completion: nil)
+        else
+        {
+            let customer = Customer(withEmail: customerEmail, withName: self.customerName)
+            let address = Address(withFirstName: self.firstName, withLastName: self.lastName)
+            address.line1 = "472"
+            address.county = "Suffolk"
+            address.country = "Fiction"
+            address.postcode = "02124"
+        
+            //Check out the order
+            let order = MoltinManager.instance().checkoutOrder(customer: customer, address: address)
+            let Storyboard = UIStoryboard.init(name: "CheckoutFlow", bundle: nil)
+            let vc = Storyboard.instantiateViewController(withIdentifier:"CheckoutConfirmation") as? CheckoutConfirmationViewController
+            vc?.orderId = order
+            self.present(vc!, animated: true, completion: nil)
+        }
     }
     
 }
+
+extension CheckoutPaymentViewController: PKPaymentAuthorizationViewControllerDelegate {
+    func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, completion: @escaping ((PKPaymentAuthorizationStatus) -> Void)) {
+        completion(PKPaymentAuthorizationStatus.success)
+
+        //Go Home or to a reciept
+        completion(PKPaymentAuthorizationStatus.success)
+
+
+    }
+    
+    func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
+        controller.dismiss(animated: true, completion: nil)
+        let Storyboard = UIStoryboard.init(name: "CheckoutFlow", bundle: nil)
+        let vc = Storyboard.instantiateViewController(withIdentifier:"Receipt") as? ReceiptViewController
+        self.present(vc!, animated: true, completion: nil)
+    }
+}
+
