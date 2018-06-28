@@ -27,7 +27,6 @@ class ReceiptTableViewCell: UITableViewCell {
         //TODO get product images and size handle qty
         self.productName.text = cartProduct.name
         self.productAmount.text = cartProduct.meta.displayPrice.withTax.value.formatted
-        self.productQty.text = String(cartProduct.quantity)
         //TODO size
         //        self.productSize.text = product.meta.variationMatrix[0]
         self.productImage.load(urlString: product.mainImage?.link["href"] ?? "")

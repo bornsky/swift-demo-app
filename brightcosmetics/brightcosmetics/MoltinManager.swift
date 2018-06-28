@@ -183,17 +183,31 @@ class MoltinManager : NSObject {
             switch result {
             case .success(let result):
                 self.cart = result
-                //TODO loop through and make array
-            //                productsFromCartIds = result.data![0].productId
             case .failure(let error):
                 print("Cart error:", error)
             }
             self.semaphore.signal()
         })
-        //get products
+        //TODO: Return products and cartItems
         self.semaphore.wait()
         return self.cart!
     }
+    
+    //delete cart: Easily remove all items from a cart.
+    public func deleteCart(cartId: String?){
+        self.moltin.cart.deleteCart(AppDelegate.cartID, completionHandler: { (result)
+            in
+            switch result {
+            case .success(let result):
+                print("Cart error:", result)
+            case .failure(let error):
+                print("Cart error:", error)
+            }
+            self.semaphore.signal()
+        })
+        self.semaphore.wait()
+    }
+    
     
     //Apply promo to cart
     public func applyPromoToCart(promoCode: String) -> Bool {
@@ -242,7 +256,7 @@ class MoltinManager : NSObject {
         let headers = [
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization": "Bearer \(self.moltinToken)",
+            "Authorization": "Bearer \(self.moltinToken)"
         ]
         let user = ["data": [
             "type": "customer",
@@ -279,9 +293,9 @@ class MoltinManager : NSObject {
     
 
     //MARK: Checkout
-    public func payForOrder(order: Order, paymentMethodStripe: PaymentMethod) -> Bool {
+    public func payForOrder(order: Order, paymentMethod: PaymentMethod) -> Bool {
         var worked: Bool = false
-        self.moltin.cart.pay(forOrderID: order.id, withPaymentMethod: paymentMethodStripe) { (result) in
+        self.moltin.cart.pay(forOrderID: order.id, withPaymentMethod: paymentMethod) { (result) in
             switch result {
             case .success(let status):
                 worked = true
@@ -331,10 +345,7 @@ class MoltinManager : NSObject {
             "Authorization": "Bearer \(self.moltinToken)",
         ]
 
-        let postData = NSMutableData(data: "client_id=\(AppDelegate.moltinId)".data(using: String.Encoding.utf8)!)
-        postData.append("&grant_type=implicit".data(using: String.Encoding.utf8)!)
-        
-        let request = NSMutableURLRequest(url: NSURL(string: "https://api.moltin.com/v2/promotions")! as URL,cachePolicy: .useProtocolCachePolicy, timeoutInterval: 20.0)
+        let request = NSMutableURLRequest(url: NSURL(string: "https://api.moltin.com/v2/promotions")! as URL,cachePolicy: .useProtocolCachePolicy, timeoutInterval: 50.0)
         request.httpMethod = "GET"
         request.allHTTPHeaderFields = headers
         

@@ -35,6 +35,7 @@ class HomeViewController: UIViewController {
         
         self.titleLabel.text = "Bright Cosmetics"
         self.subTitleLabel.text = "Be Inspired By Our Wide Selection Of Luxury Cosmetics At Affordable Prices."
+        self.subTitleLabel.textColor = Colors.lightGreyText()
         
     }
 

@@ -46,6 +46,7 @@ class CheckoutPaymentViewController: UIViewController {
     
     var cartItems: [moltin.CartItem] = Array()
     var cart: moltin.Cart?
+    var order: moltin.Order?
 
 
     override func viewDidLoad() {
@@ -120,6 +121,8 @@ class CheckoutPaymentViewController: UIViewController {
         //TODO hide Scroll view
         self.creditCardCheckMark.isHidden = false
         self.applyPayCheckmark.isHidden = true
+        self.applePay = false
+
         
         self.creditCardCheckMark.isHidden = false
         self.creditCardInputView.isHidden = false
@@ -141,6 +144,16 @@ class CheckoutPaymentViewController: UIViewController {
     }
     
     @IBAction func orderConfirmationPressed(_ sender: Any) {
+        
+        //get from api
+        let customer = Customer(withEmail: customerEmail, withName: self.customerName)
+        let address = Address(withFirstName: self.firstName, withLastName: self.lastName)
+        address.line1 = "472"
+        address.county = "Suffolk"
+        address.country = "Fiction"
+        address.postcode = "02124"
+        self.order = MoltinManager.instance().checkoutOrder(customer: customer, address: address)
+        
         //if apple pay or CC
         if applePay {
             let request = PKPaymentRequest()
@@ -172,15 +185,7 @@ class CheckoutPaymentViewController: UIViewController {
         
         else
         {
-            let customer = Customer(withEmail: customerEmail, withName: self.customerName)
-            let address = Address(withFirstName: self.firstName, withLastName: self.lastName)
-            address.line1 = "472"
-            address.county = "Suffolk"
-            address.country = "Fiction"
-            address.postcode = "02124"
-        
             //Check out the order
-            let order = MoltinManager.instance().checkoutOrder(customer: customer, address: address)
             let Storyboard = UIStoryboard.init(name: "CheckoutFlow", bundle: nil)
             let vc = Storyboard.instantiateViewController(withIdentifier:"CheckoutConfirmation") as? CheckoutConfirmationViewController
             vc?.orderId = order
@@ -193,11 +198,11 @@ class CheckoutPaymentViewController: UIViewController {
 extension CheckoutPaymentViewController: PKPaymentAuthorizationViewControllerDelegate {
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, completion: @escaping ((PKPaymentAuthorizationStatus) -> Void)) {
         completion(PKPaymentAuthorizationStatus.success)
-
-        //Go Home or to a reciept
-        completion(PKPaymentAuthorizationStatus.success)
-
-
+        
+        //moltin payment
+        //Manual Example
+        let paymentMethod = ManuallyAuthorizePayment()
+        _ = MoltinManager.instance().payForOrder(order: self.order!, paymentMethod: paymentMethod)
     }
     
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {

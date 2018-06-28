@@ -39,6 +39,9 @@ class CheckoutConfirmationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.voucherLabel.isHidden = true
+        self.codeLabel.isHidden = true
+
         self.totalLabel.textColor = Colors.lightGreyText()
         let cart = MoltinManager.instance().getCart(cartId: "")
 
@@ -101,7 +104,7 @@ class CheckoutConfirmationViewController: UIViewController {
     @IBAction func buyNowButtonPressed(_ sender: Any) {
         //Manual Example
         let paymentMethod = ManuallyAuthorizePayment()
-        let paymentWorked = MoltinManager.instance().payForOrder(order: self.orderId!, paymentMethodStripe: paymentMethod)
+        let paymentWorked = MoltinManager.instance().payForOrder(order: self.orderId!, paymentMethod: paymentMethod)
         //if worked reload data
         let title = paymentWorked ? "Your purchase is on the way" : "There was an issue with ytour payment"
         let message = paymentWorked ? "Continue to see your reciept" : "Please try again"
