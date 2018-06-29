@@ -20,26 +20,31 @@ class ReceiptViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //TODO: return cartItems and products fetch cartItems
-        let cartItems = MoltinManager.instance().getCartItems(cartId: "")
-        self.cartItems = cartItems
-        let productIds = self.cartItems.map({ $0.productId })
-        
-        for id in productIds {
-            let productItem = MoltinManager.instance().getProductById(productId: id)
-            self.productsInCart.insert(productItem, at: self.productsInCart.endIndex)
+        MoltinManager.instance().getCartItems(cartId: ""){ (cartItems) -> (Void) in
+            self.cartItems = cartItems
+            let productIds = self.cartItems.map({ $0.productId })
+            
+            for id in productIds {
+                MoltinManager.instance().getProductById(productId: id) { (product) -> (Void) in
+                    let productItem = product
+                    self.productsInCart.insert(productItem!, at: self.productsInCart.endIndex)
+                    self.tableView.reloadData()
+                }
+            }
+            
+            MoltinManager.instance().getCart(cartId: "") { (cart) -> (Void) in
+                self.totalLabel.text = cart?.meta?.displayPrice.withTax.formatted
+            }
         }
-        
-        let cart = MoltinManager.instance().getCart(cartId: "")
-        self.amountLabel.text = cart.meta?.displayPrice.withTax.formatted
+
         self.totalLabel.textColor = Colors.lightGreyText()
-
         tableView.register(UINib(nibName: "ReceiptTableViewCell", bundle: nil), forCellReuseIdentifier: "ReceiptCell")
-
-
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        MoltinManager.instance().deleteCart(cartId: "")
+        MoltinManager.instance().deleteCart(cartId: "") { () -> (Void) in
+            print("Cart removed")
+        }
     }
     
     override var prefersStatusBarHidden: Bool {

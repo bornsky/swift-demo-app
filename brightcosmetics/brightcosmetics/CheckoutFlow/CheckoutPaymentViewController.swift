@@ -90,10 +90,14 @@ class CheckoutPaymentViewController: UIViewController {
         }
         
         //apple pay stuff
-        self.applePayButtonLabel.isHidden = !PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: SupportedPaymentNetworks)
-
-        self.cartItems = MoltinManager.instance().getCartItems(cartId: "")
-        self.cart = MoltinManager.instance().getCart(cartId: "")
+        self.applePayButtonLabel.isHidden = !PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: SupportedPaymentNetworks)        
+        MoltinManager.instance().getCartItems(cartId: ""){ (cartItems) -> (Void) in
+            self.cartItems = cartItems
+        }
+        
+        MoltinManager.instance().getCart(cartId: "") { (cart) -> (Void) in
+             self.cart = cart
+        }
 
     }
     
@@ -152,44 +156,45 @@ class CheckoutPaymentViewController: UIViewController {
         address.county = "Suffolk"
         address.country = "Fiction"
         address.postcode = "02124"
-        self.order = MoltinManager.instance().checkoutOrder(customer: customer, address: address)
-        
+        MoltinManager.instance().checkoutOrder(customer: customer, address: address) { (order) -> (Void) in
+            self.order = order
         //if apple pay or CC
-        if applePay {
-            let request = PKPaymentRequest()
+            if self.applePay {
+                let request = PKPaymentRequest()
 
-            request.merchantIdentifier = ApplePaySwagMerchantID
-            request.supportedNetworks = SupportedPaymentNetworks
-            request.merchantCapabilities = PKMerchantCapability.capability3DS
-            request.countryCode = "US"
-            request.currencyCode = "USD"
-            request.requiredShippingContactFields = [.name, .postalAddress]
+                request.merchantIdentifier = self.ApplePaySwagMerchantID
+                request.supportedNetworks = self.SupportedPaymentNetworks
+                request.merchantCapabilities = PKMerchantCapability.capability3DS
+                request.countryCode = "US"
+                request.currencyCode = "USD"
+                request.requiredShippingContactFields = [.name, .postalAddress]
 
-            let applyPayFormatter = NumberFormatter()
-            applyPayFormatter.usesGroupingSeparator = true
-            applyPayFormatter.numberStyle = .decimal
-            
-            //Shipping + Tax
-            let product = PKPaymentSummaryItem(label: "Products", amount: NSDecimalNumber(decimal:Decimal(self.cartItems[0].meta.displayPrice.withTax.value.amount/100)), type: .final)
-            let shipping = PKPaymentSummaryItem(label: "Shipping", amount: NSDecimalNumber(decimal:1.00), type: .final)
-            let tax = PKPaymentSummaryItem(label: "Total", amount: NSDecimalNumber(decimal:3.00), type: .final)
-            
-            let total = PKPaymentSummaryItem(label: "Tax", amount: NSDecimalNumber(decimal:Decimal((self.cart?.meta?.displayPrice.withTax.amount)!/100)), type: .final)
-            
-            request.paymentSummaryItems = [product, shipping, tax, total]
-            let applePayController = PKPaymentAuthorizationViewController(paymentRequest: request)
-            applePayController?.delegate = self
+                let applyPayFormatter = NumberFormatter()
+                applyPayFormatter.usesGroupingSeparator = true
+                applyPayFormatter.numberStyle = .decimal
+                
+                //Shipping + Tax
+                let product = PKPaymentSummaryItem(label: "Products", amount: NSDecimalNumber(decimal:Decimal(self.cartItems[0].meta.displayPrice.withTax.value.amount/100)), type: .final)
+                let shipping = PKPaymentSummaryItem(label: "Shipping", amount: NSDecimalNumber(decimal:1.00), type: .final)
+                let tax = PKPaymentSummaryItem(label: "Total", amount: NSDecimalNumber(decimal:3.00), type: .final)
+                
+                let total = PKPaymentSummaryItem(label: "Tax", amount: NSDecimalNumber(decimal:Decimal((self.cart?.meta?.displayPrice.withTax.amount)!/100)), type: .final)
+                
+                request.paymentSummaryItems = [product, shipping, tax, total]
+                let applePayController = PKPaymentAuthorizationViewController(paymentRequest: request)
+                applePayController?.delegate = self
 
-            self.present(applePayController!, animated: true, completion: nil)
-        }
-        
-        else
-        {
-            //Check out the order
-            let Storyboard = UIStoryboard.init(name: "CheckoutFlow", bundle: nil)
-            let vc = Storyboard.instantiateViewController(withIdentifier:"CheckoutConfirmation") as? CheckoutConfirmationViewController
-            vc?.orderId = order
-            self.present(vc!, animated: true, completion: nil)
+                self.present(applePayController!, animated: true, completion: nil)
+            }
+
+            else
+            {
+                //Check out the order
+                let Storyboard = UIStoryboard.init(name: "CheckoutFlow", bundle: nil)
+                let vc = Storyboard.instantiateViewController(withIdentifier:"CheckoutConfirmation") as? CheckoutConfirmationViewController
+                vc?.orderId = order
+                self.present(vc!, animated: true, completion: nil)
+            }
         }
     }
     
@@ -202,7 +207,12 @@ extension CheckoutPaymentViewController: PKPaymentAuthorizationViewControllerDel
         //moltin payment
         //Manual Example
         let paymentMethod = ManuallyAuthorizePayment()
-        _ = MoltinManager.instance().payForOrder(order: self.order!, paymentMethod: paymentMethod)
+        MoltinManager.instance().payForOrder(order: self.order!, paymentMethod: paymentMethod) { (paymentWorked) -> (Void) in
+            if paymentWorked
+            {
+                print("payment worked", self.order)
+            }
+        }
     }
     
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {

@@ -58,7 +58,7 @@ class ProductDetailViewController: UIViewController {
     
     @IBAction func addToBagPressed(_ sender: Any) {
         //Add to cart
-        let itemAdded = MoltinManager.instance().addItemToCart(cartId: "", productId: product?.id ?? "", qty: 1)
+        MoltinManager.instance().addItemToCart(cartId: "", productId: product?.id ?? "", qty: 1) { (itemAdded) -> (Void) in
             if itemAdded {
                 let storyboard = UIStoryboard(name: "CheckoutFlow", bundle: nil)
                 let vc = storyboard.instantiateViewController(withIdentifier: "CartView") as UIViewController
@@ -69,6 +69,7 @@ class ProductDetailViewController: UIViewController {
                 //throw some error
                 
             }
+        }
         
     }
     

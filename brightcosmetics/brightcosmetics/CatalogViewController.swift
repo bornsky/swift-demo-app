@@ -48,20 +48,27 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate, UIColle
         self.viewAllLabel3.setTitleColor(Colors.navBar(), for: .normal)
 
         // Do any additional setup after loading the view, typically from a nib.
-        self.product = MoltinManager.instance().getProducts()
+        MoltinManager.instance().getProducts { (products) -> (Void) in
+            self.product = products
+            
+            for products in self.product  {
+                if  (products.categories![0].name == "Body Skincare") {
+                    self.bodySkincareProducts.append(products)
+                }
+                else if (products.categories![0].name == "Haircare") {
+                    self.hairProducts.append(products)
+                }
+                else if (products.categories![0].name == "Facial Skincare") {
+                    self.facialProducts.append(products)
+                }
+            }
+            self.collectionCatalogView.reloadData()
+            self.collectionCatalogTwoView.reloadData()
+            self.collectionCatalogThreeView.reloadData()
+    }
         //get all cat
-        self.categories = MoltinManager.instance().getCategories()
-
-        for products in self.product  {
-            if  (products.categories![0].name == "Body Skincare") {
-                bodySkincareProducts.append(products)
-            }
-            else if (products.categories![0].name == "Haircare") {
-                hairProducts.append(products)
-            }
-            else if (products.categories![0].name == "Facial Skincare") {
-                facialProducts.append(products)
-            }
+        MoltinManager.instance().getCategories { (categories) -> (Void) in
+            self.categories = categories
         }
     }
     

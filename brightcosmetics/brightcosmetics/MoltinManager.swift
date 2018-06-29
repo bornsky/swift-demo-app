@@ -75,137 +75,126 @@ class MoltinManager : NSObject {
     }
 
     //Get categories
-    public func getCategories() -> [moltin.Category] {
+    public func getCategories(completion: @escaping (_ categories: [moltin.Category]) -> (Void)) {
         self.moltin.category.include([.products]).all(completionHandler: { (result: Result<PaginatedResponse<[moltin.Category]>>) in
-            self.semaphore.signal()
             switch result {
             case .success(let response):
                 self.categories = response.data ?? []
+                completion(self.categories)
             case .failure(let error):
                 print("Get Categories error:", error)
-                self.categories = []
             }
         })
-        self.semaphore.wait()
-        return self.categories
     }
     
     //Get products
-    public func getProducts() -> [moltin.Product] {
+    public func getProducts(completion: @escaping (_ products: [Product]) -> (Void)) {
         self.moltin.product.include([.mainImage, .categories]).all { (result: Result<PaginatedResponse<[moltin.Product]>>) in
-            self.semaphore.signal()
             switch result {
             case .success(let response):
-                self.products = response.data ?? []
+                DispatchQueue.main.async {
+                    self.products = response.data ?? []
+                    completion(self.products)
+                }
             case .failure(let error):
-                print("Get Products error:", error)
-                self.products = []
+                print("Products error", error)
             }
         }
-        self.semaphore.wait()
-        return self.products
     }
     
     //get product by Id
-    public func getProductById(productId: String) -> Product {
+    public func getProductById(productId: String, completion: @escaping (_ product: Product?) -> (Void)) {
         self.moltin.product.include([.mainImage]).get(forID: productId, completionHandler: { (result: Result<Product>) in
             switch result {
             case .success(let product):
-                self.product = product
-                self.semaphore.signal()
+                DispatchQueue.main.async {
+                    self.product = product
+                    completion(self.product)
+                }
             default: break
             }
         })
-        self.semaphore.wait()
-        return self.product!
     }
     
     //get product by Filter
-    public func getProductByFilter(key: String, value: String) -> [moltin.Product] {
+    public func getProductByFilter(key: String, value: String, completion: @escaping (_ product: [moltin.Product]) -> (Void)) {
         self.moltin.product.filter(operator: .equal, key: key, value: value).include([.mainImage]).all
             { (result: Result<PaginatedResponse<[moltin.Product]>>) in
                 switch result {
                 case .success(let response):
-                    self.products = response.data ?? []
+                    DispatchQueue.main.async {
+                        self.products = response.data ?? []
+                        completion(self.products)
+                    }
                 case .failure(let error):
                     print("Get Products error:", error)
-                    self.products = []
                 }
-                self.semaphore.signal()
         }
-        self.semaphore.wait()
-        return self.products
     }
     
     //MARK: CART
     //add item to cart
-    public func addItemToCart(cartId: String?, productId: String, qty: Int) -> (Bool){
+    public func addItemToCart(cartId: String?, productId: String, qty: Int, completion: @escaping (_ itemAdded: Bool) -> (Void)) {
         var itemAdded = false
         self.moltin.cart.addProduct(withID: productId , ofQuantity: qty, toCart: AppDelegate.cartID, completionHandler: { (_) in
-            itemAdded = true
-            self.semaphore.signal()
+            DispatchQueue.main.async {
+                itemAdded = true
+                completion(itemAdded)
+            }
         })
-        self.semaphore.wait()
-        return itemAdded
     }
     
     //remove item from cart
-    public func removeItemFromCart(cartId: String?, productId: String) -> (Bool) {
-        var itemRemoved = false
+    public func removeItemFromCart(cartId: String?, productId: String, completion: @escaping () -> (Void)) {
         self.moltin.cart.removeItem(productId, fromCart: AppDelegate.cartID, completionHandler: { (_) in
-            self.semaphore.signal()
-            itemRemoved = true
+            completion()
         })
-        self.semaphore.wait()
-        return itemRemoved
     }
     
     //get Cart Items
-    public func getCartItems(cartId: String?) -> [moltin.CartItem]{
+    public func getCartItems(cartId: String?, completion: @escaping ([moltin.CartItem]) -> (Void)) {
         self.moltin.cart.include([.products]).items(forCartID: AppDelegate.cartID) { (result) in
             switch result {
             case .success(let result):
-                self.cartItems = result.data ?? []
+                DispatchQueue.main.async {
+                    self.cartItems = result.data ?? []
+                    completion(self.cartItems)
+                }
             case .failure(let error):
                 print("Cart error:", error)
-                self.cartItems = []
             }
-            self.semaphore.signal()
         }
-        self.semaphore.wait()
-        return self.cartItems
     }
     
     //get cart
-    public func getCart(cartId: String?) -> moltin.Cart{
+    public func getCart(cartId: String?, completion: @escaping (moltin.Cart?) -> (Void)) {
         self.moltin.cart.get(forID: AppDelegate.cartID, completionHandler: { (result)
             in
             switch result {
             case .success(let result):
-                self.cart = result
+                DispatchQueue.main.async {
+                    self.cart = result
+                    completion(self.cart)
+                }
             case .failure(let error):
                 print("Cart error:", error)
             }
-            self.semaphore.signal()
         })
-        //TODO: Return products and cartItems
-        self.semaphore.wait()
-        return self.cart!
     }
     
     //delete cart: Easily remove all items from a cart.
-    public func deleteCart(cartId: String?){
+    public func deleteCart(cartId: String?, completion: @escaping () -> (Void)) {
         self.moltin.cart.deleteCart(AppDelegate.cartID, completionHandler: { (result)
             in
             switch result {
             case .success(let result):
+                completion()
                 print("Cart error:", result)
             case .failure(let error):
+                completion()
                 print("Cart error:", error)
             }
-            self.semaphore.signal()
         })
-        self.semaphore.wait()
     }
     
     
@@ -293,48 +282,34 @@ class MoltinManager : NSObject {
     
 
     //MARK: Checkout
-    public func payForOrder(order: Order, paymentMethod: PaymentMethod) -> Bool {
-        var worked: Bool = false
-        self.moltin.cart.pay(forOrderID: order.id, withPaymentMethod: paymentMethod) { (result) in
+    public func payForOrder(order: Order?, paymentMethod: PaymentMethod, completion: @escaping (_ orderPayed: Bool) -> (Void)) {
+        var orderPayed = false
+        self.moltin.cart.pay(forOrderID: order?.id ?? "", withPaymentMethod: paymentMethod) { (result) in
             switch result {
             case .success(let status):
-                worked = true
-                print("Paid for order: \(status)")
+                DispatchQueue.main.async {
+                    orderPayed = true
+                    completion(orderPayed)
+                    print("Paid for order: \(status)")
+                }
             case .failure(let error):
-                worked = true
+                orderPayed = false
+                completion(orderPayed)
                 print("Could not pay for order: \(error)")
-                self.semaphore.signal()
             }
         }
-        self.semaphore.wait()
-        return worked
     }
     
-    public func checkoutOrder(customer: Customer, address: Address) -> Order {
-        var orderComplete: Order?
+    public func checkoutOrder(customer: Customer, address: Address, completion: @escaping (_ Order: Order) -> (Void)) {
         self.moltin.cart.checkout(cart: AppDelegate.cartID, withCustomer: customer, withBillingAddress: address, withShippingAddress: nil) { (result) in
             switch result {
             case .success(let order):
-                orderComplete = order
-                self.semaphore.signal()
+                DispatchQueue.main.async {
+                    completion(order)
+                }
             default: break
             }
         }
-        self.semaphore.wait()
-        return orderComplete!
-    }
-    
-    public func payForOrder(orderId: Order, paymentGateway: PaymentMethod) -> Bool  {
-        var paymentWorked: Bool = false
-        self.moltin.cart.pay(forOrderID: orderId.id, withPaymentMethod: paymentGateway) { (result) in
-            switch result {
-            case .success:
-                paymentWorked = true
-            case .failure(let error):
-                print("payment error:\(error)")
-            }
-        }
-        return paymentWorked
     }
     
     //MARK: Promotions
