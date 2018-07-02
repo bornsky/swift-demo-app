@@ -51,8 +51,6 @@ class CheckoutPaymentViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //Fetch codes incase user puts on in
-        MoltinManager.instance().getPromotionCodes()
         
         //payment choice
         self.applyPayCheckmark.isHidden = true
@@ -138,13 +136,14 @@ class CheckoutPaymentViewController: UIViewController {
     
     @IBAction func applyPromoPressed(_ sender: Any) {
         //TODO set up promotions
-        let promoGood = MoltinManager.instance().checkPromoCode(promoCode: self.promoTextInput.text ?? "")
-        let title = promoGood ? "Discount worked" : "Discount not applied"
-        let message = promoGood ? "Continue to the next page to see your updated order and complete the purchase" : "The Promo code did not work"
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler:  { (action) in
-        }))
-        self.present(alert, animated: true, completion: nil)
+        MoltinManager.instance().applyPromotion(code: promoTextInput.text ?? "") { (promotionWorked) -> (Void) in
+            let title = promotionWorked ? "Discount worked" : "Discount not applied"
+            let message = promotionWorked ? "Continue to the next page to see your updated order and complete the purchase" : "The Promo code did not work"
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler:  { (action) in
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     @IBAction func orderConfirmationPressed(_ sender: Any) {

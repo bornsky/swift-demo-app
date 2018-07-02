@@ -184,45 +184,6 @@ class MoltinManager : NSObject {
     
     
     //Apply promo to cart
-    public func applyPromoToCart(promoCode: String) -> Bool {
-        var discountApplied: Bool = false
-
-        let headers = [
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "Authorization": "Bearer \(self.moltin.config.clientID)",
-        ]
-        let promo = ["data": [
-            "type": "promotion_item",
-            "code": promoCode
-            ]] as [String : Any]
-        var promoData: Data? = nil
-        do {
-            promoData = try JSONSerialization.data(withJSONObject: promo, options: [])
-        } catch {
-            print("Error: cannot create JSON from todo")
-        }
-        
-        let request = NSMutableURLRequest(url: NSURL(string: "https://api.moltin.com/v2/carts/\(AppDelegate.cartID)/items")! as URL,cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
-        request.httpMethod = "POST"
-        request.allHTTPHeaderFields = headers
-        request.httpBody = promoData
-        
-        let session = URLSession.shared
-        let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
-            if (error != nil) {
-                print(error as Any)
-            } else {
-                let httpResponse = response as? HTTPURLResponse
-                discountApplied = true
-                print(httpResponse as Any)
-            }
-        })
-        
-        dataTask.resume()
-   
-        return discountApplied
-    }
     
     
     //MARK: Customer
@@ -298,47 +259,19 @@ class MoltinManager : NSObject {
     }
     
     //MARK: Promotions
-    public func getPromotionCodes() {
-        let headers = [
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "Authorization": "Bearer \(self.moltin.config.clientID)",
-        ]
-
-        let request = NSMutableURLRequest(url: NSURL(string: "https://api.moltin.com/v2/promotions")! as URL,cachePolicy: .useProtocolCachePolicy, timeoutInterval: 50.0)
-        request.httpMethod = "GET"
-        request.allHTTPHeaderFields = headers
-        
-        let session = URLSession.shared
-        let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
-            if (error != nil) {
-                print(error ?? "")
-            } else {
-                let json = try! JSONSerialization.jsonObject(with: data!, options: [])
-                if let dictionary = json as? [String: Any] {
-                    if let codes = dictionary["codes"] as? [String] {
-                        self.promoCodes = codes
-                    }
-                    print(self.promoCodes)
+    public func applyPromotion(code: String,  completion: @escaping (_ promotionWorked: Bool) -> (Void)) {
+        self.moltin.cart.addPromotion(code, toCart: AppDelegate.cartID) { (result) in
+            var promotionWorked = false
+            switch result {
+            case .success(let status):
+                DispatchQueue.main.async {
+                    promotionWorked = true
+                    completion(promotionWorked)
+                    print("Promotion: \(status)")
                 }
+            default: break
             }
-        })
-        
-        dataTask.resume()
-    }
-    
-    
-    public func checkPromoCode(promoCode: String) -> Bool {
-        //check to see if the promotion code exists
-        var promoWorked: Bool = false
-        if self.promoCodes.contains("promoCode") {
-            //apply to cart
-            promoWorked = self.applyPromoToCart(promoCode: promoCode)
         }
-        else {
-            print("Not a valid promo")
-        }
-        return promoWorked
     }
 }
 
