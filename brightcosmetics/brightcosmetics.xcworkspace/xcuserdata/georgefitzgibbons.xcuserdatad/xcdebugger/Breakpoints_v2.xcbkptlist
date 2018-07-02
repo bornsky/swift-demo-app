@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CatalogViewController.swift"
-            timestampString = "551994005.118212"
+            timestampString = "552236071.7349271"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "110"
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.118299"
+            timestampString = "552236071.735384"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "getCategories(completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,29 +42,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.118373"
+            timestampString = "552236071.735469"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
-            landmarkName = "getCategories(completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.118445"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
-            landmarkName = "getProducts(completion:)"
-            landmarkType = "7">
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "MoltinManager"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -74,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CatalogViewController.swift"
-            timestampString = "551994005.118507"
+            timestampString = "552236071.735544"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "111"
@@ -106,7 +90,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CheckoutFlow/CartViewController.swift"
-            timestampString = "551994005.1186219"
+            timestampString = "552236071.73592"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "27"
@@ -138,7 +122,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/ProductDetailViewController.swift"
-            timestampString = "551994005.1194431"
+            timestampString = "552236071.736832"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "27"
@@ -154,7 +138,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/ProductDetailViewController.swift"
-            timestampString = "551994005.119487"
+            timestampString = "552236071.736885"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "35"
@@ -186,7 +170,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CheckoutFlow/CartViewController.swift"
-            timestampString = "551994005.119557"
+            timestampString = "552236071.736967"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
@@ -202,12 +186,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.120164"
+            timestampString = "552236071.7376961"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
-            landmarkName = "getCartItems(cartId:completion:)"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "addItemToCart(cartId:productId:qty:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -234,12 +218,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.120268"
+            timestampString = "552236071.737823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
-            landmarkName = "getCartItems(cartId:completion:)"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
+            landmarkName = "addItemToCart(cartId:productId:qty:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -344,7 +328,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CheckoutFlow/CartViewController.swift"
-            timestampString = "551994005.1203901"
+            timestampString = "552236071.737965"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "60"
@@ -360,7 +344,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CheckoutFlow/CartViewController.swift"
-            timestampString = "551994005.12098"
+            timestampString = "552236071.738676"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "53"
@@ -392,7 +376,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CheckoutFlow/CartViewController.swift"
-            timestampString = "551994005.1215971"
+            timestampString = "552236071.739395"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "66"
@@ -408,7 +392,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CheckoutFlow/CartViewController.swift"
-            timestampString = "551994005.122187"
+            timestampString = "552236071.740087"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "72"
@@ -424,11 +408,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.12278"
+            timestampString = "552236071.740895"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "267"
-            endingLineNumber = "267"
+            startingLineNumber = "252"
+            endingLineNumber = "252"
             landmarkName = "createCustomer(userName:userEmail:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -440,11 +424,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.122857"
+            timestampString = "552236071.740976"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "269"
-            endingLineNumber = "269"
+            startingLineNumber = "254"
+            endingLineNumber = "254"
             landmarkName = "createCustomer(userName:userEmail:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -456,7 +440,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CheckoutFlow/CheckoutConfirmationViewController.swift"
-            timestampString = "551994005.122921"
+            timestampString = "552236071.741051"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "138"
@@ -472,11 +456,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.123193"
+            timestampString = "552236071.741107"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "276"
-            endingLineNumber = "276"
+            startingLineNumber = "261"
+            endingLineNumber = "261"
             landmarkName = "createCustomer(userName:userEmail:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -488,11 +472,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.1232589"
+            timestampString = "552236071.741176"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "275"
-            endingLineNumber = "275"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
             landmarkName = "createCustomer(userName:userEmail:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -504,44 +488,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.12332"
+            timestampString = "552236071.741246"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "273"
-            endingLineNumber = "273"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
             landmarkName = "createCustomer(userName:userEmail:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.123381"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "setMoltinToken()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.123441"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "setMoltinToken()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -552,7 +504,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CheckoutFlow/CheckoutPaymentViewController.swift"
-            timestampString = "551994005.1235059"
+            timestampString = "552236071.741329"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "55"
@@ -568,12 +520,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.1238461"
+            timestampString = "552236071.741408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
-            landmarkName = "payForOrder(order:paymentMethod:completion:)"
+            startingLineNumber = "278"
+            endingLineNumber = "278"
+            landmarkName = "createCustomer(userName:userEmail:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -584,7 +536,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CheckoutFlow/CartViewController.swift"
-            timestampString = "551994005.123912"
+            timestampString = "552236071.741477"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "123"
@@ -600,7 +552,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CheckoutFlow/CartViewController.swift"
-            timestampString = "551994005.1245019"
+            timestampString = "552236071.742193"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "124"
@@ -648,7 +600,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CheckoutFlow/CartViewController.swift"
-            timestampString = "551994005.125146"
+            timestampString = "552236071.742946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "101"
@@ -696,7 +648,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CheckoutFlow/CartViewController.swift"
-            timestampString = "551994005.125821"
+            timestampString = "552236071.743678"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "109"
@@ -712,12 +664,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.12641"
+            timestampString = "552236071.744326"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
-            landmarkName = "addItemToCart(cartId:productId:qty:completion:)"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "getProductsByCategory(categorySlug:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -728,12 +680,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.126475"
+            timestampString = "552236071.7444021"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "349"
-            endingLineNumber = "349"
-            landmarkName = "checkPromoCode(promoCode:)"
+            startingLineNumber = "334"
+            endingLineNumber = "334"
+            landmarkName = "getPromotionCodes()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -744,7 +696,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CheckoutFlow/CheckoutPaymentViewController.swift"
-            timestampString = "551994005.126543"
+            timestampString = "552236071.744471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "209"
@@ -760,12 +712,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.1268049"
+            timestampString = "552236071.744532"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "203"
-            endingLineNumber = "203"
-            landmarkName = "applyPromoToCart(promoCode:)"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
+            landmarkName = "getCart(cartId:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -776,12 +728,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.126871"
+            timestampString = "552236071.744598"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "320"
-            endingLineNumber = "320"
-            landmarkName = "getPromotionCodes()"
+            startingLineNumber = "305"
+            endingLineNumber = "305"
+            landmarkName = "payForOrder(order:paymentMethod:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -792,12 +744,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.12693"
+            timestampString = "552236071.744661"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "328"
-            endingLineNumber = "328"
-            landmarkName = "getPromotionCodes()"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
+            landmarkName = "checkoutOrder(customer:address:completion:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -840,12 +792,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/MoltinManager.swift"
-            timestampString = "551994005.12699"
+            timestampString = "552236071.744723"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "325"
-            endingLineNumber = "325"
-            landmarkName = "getPromotionCodes()"
+            startingLineNumber = "310"
+            endingLineNumber = "310"
+            landmarkName = "checkoutOrder(customer:address:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -856,7 +808,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CatalogViewController.swift"
-            timestampString = "551994005.127053"
+            timestampString = "552236071.744789"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "52"
@@ -872,7 +824,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CheckoutFlow/CheckoutPaymentViewController.swift"
-            timestampString = "551994005.127118"
+            timestampString = "552236071.745097"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "160"
@@ -888,7 +840,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brightcosmetics/CheckoutFlow/CheckoutConfirmationViewController.swift"
-            timestampString = "551994005.127359"
+            timestampString = "552236071.74515"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "38"

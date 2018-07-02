@@ -39,41 +39,10 @@ class MoltinManager : NSObject {
 
     
     //Set up to make manual api calls
-    var moltinToken: String = ""
     let moltinHeaders = [
         "Accept": "application/json",
         "Content-Type": "application/x-www-form-urlencoded"
     ]
-    
-    public func setMoltinToken() {
-        //Get token for non-sdk api calls
-        let postData = NSMutableData(data: "client_id=\(AppDelegate.moltinId)".data(using: String.Encoding.utf8)!)
-        postData.append("&grant_type=implicit".data(using: String.Encoding.utf8)!)
-        
-        let request = NSMutableURLRequest(url: NSURL(string: "https://api.moltin.com/oauth/access_token")! as URL,
-                                          cachePolicy: .useProtocolCachePolicy,
-                                          timeoutInterval: 10.0)
-        request.httpMethod = "POST"
-        request.allHTTPHeaderFields = moltinHeaders
-        request.httpBody = postData as Data
-        
-        let session = URLSession.shared
-        let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
-            if (error != nil) {
-                print(error ?? "")
-            } else {
-                let json = try! JSONSerialization.jsonObject(with: data!, options: [])
-                if let dictionary = json as? [String: Any] {
-                    if let token = dictionary["access_token"] as? String {
-                        self.moltinToken = token
-                    }
-                }
-            }
-        })
-        
-        dataTask.resume()
-    }
-
     //Get categories
     public func getCategories(completion: @escaping (_ categories: [moltin.Category]) -> (Void)) {
         self.moltin.category.include([.products]).all(completionHandler: { (result: Result<PaginatedResponse<[moltin.Category]>>) in
@@ -119,6 +88,22 @@ class MoltinManager : NSObject {
     //get product by Filter
     public func getProductByFilter(key: String, value: String, completion: @escaping (_ product: [moltin.Product]) -> (Void)) {
         self.moltin.product.filter(operator: .equal, key: key, value: value).include([.mainImage]).all
+            { (result: Result<PaginatedResponse<[moltin.Product]>>) in
+                switch result {
+                case .success(let response):
+                    DispatchQueue.main.async {
+                        self.products = response.data ?? []
+                        completion(self.products)
+                    }
+                case .failure(let error):
+                    print("Get Products error:", error)
+                }
+        }
+    }
+    
+    //get product by Category
+    public func getProductsByCategory(categorySlug: String , completion: @escaping (_ product: [moltin.Product]) -> (Void)) {
+        self.moltin.product.filter(operator: .equal, key:  "category.slug", value: categorySlug).include([.mainImage]).all
             { (result: Result<PaginatedResponse<[moltin.Product]>>) in
                 switch result {
                 case .success(let response):
@@ -205,7 +190,7 @@ class MoltinManager : NSObject {
         let headers = [
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization": "Bearer \(self.moltinToken)",
+            "Authorization": "Bearer \(self.moltin.config.clientID)",
         ]
         let promo = ["data": [
             "type": "promotion_item",
@@ -245,7 +230,7 @@ class MoltinManager : NSObject {
         let headers = [
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization": "Bearer \(self.moltinToken)"
+            "Authorization": "Bearer \(self.moltin.config.clientID)"
         ]
         let user = ["data": [
             "type": "customer",
@@ -317,7 +302,7 @@ class MoltinManager : NSObject {
         let headers = [
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization": "Bearer \(self.moltinToken)",
+            "Authorization": "Bearer \(self.moltin.config.clientID)",
         ]
 
         let request = NSMutableURLRequest(url: NSURL(string: "https://api.moltin.com/v2/promotions")! as URL,cachePolicy: .useProtocolCachePolicy, timeoutInterval: 50.0)
