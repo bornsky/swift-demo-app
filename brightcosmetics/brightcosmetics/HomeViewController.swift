@@ -46,7 +46,7 @@ class HomeViewController: UIViewController {
 
     @IBAction func scanButtonPressed(_ sender: Any) {
         
-        self.performSegue(withIdentifier: "homeToCatalog", sender: nil)
+//        self.performSegue(withIdentifier: "homeToCatalog", sender: nil)
 
     }
     

@@ -26,14 +26,23 @@ class ProductDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let logo = UIImage(named: "logo")
-        let imageView = UIImageView(image:logo)
-        self.navBarLogo.titleView = imageView
+        let titleImageView = UIImageView(image: #imageLiteral(resourceName: "full-logo-iOS"))
+        titleImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        titleImageView.contentMode = .scaleAspectFit
         
-        UINavigationBar.appearance().barTintColor = Colors.navBar()
+        navigationItem.titleView = titleImageView
+        
+        navigationController?.navigationBar.barTintColor = Colors.navBar()
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+        
+//        let logo = UIImage(named: "logo")
+//        let imageView = UIImageView(image:logo)
+//        self.navBarLogo.titleView = imageView
+        
+//        UINavigationBar.appearance().barTintColor = Colors.navBar()
 
-        self.navBar.backgroundColor? = Colors.navBar()
-        self.navBar.tintColor? = Colors.navBar()
+//        self.navBar.backgroundColor? = Colors.navBar()
+//        self.navBar.tintColor? = Colors.navBar()
         
         self.mainImage.load(urlString: self.product?.mainImage?.link["href"] ?? "")
         self.productName.text = product?.name

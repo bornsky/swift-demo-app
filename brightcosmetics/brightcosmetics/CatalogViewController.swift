@@ -14,8 +14,8 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     @IBOutlet weak var collectionCatalogView: UICollectionView!
     @IBOutlet weak var navBar: UINavigationBar!
-    @IBOutlet weak var navBarTitle: UINavigationItem!
-    @IBOutlet weak var categoyNameLabel: UILabel!
+//    @IBOutlet weak var navBarTitle: UINavigationItem!
+//    @IBOutlet weak var categoyNameLabel: UILabel!
     
     @IBOutlet weak var viewAllLabel3: UIButton!
     @IBOutlet weak var viewAllLabel2: UIButton!
@@ -32,20 +32,12 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate, UIColle
     var facialProducts: [moltin.Product] = []
 
     var categories: [moltin.Category] = []
-    var navigationBarAppearace = UINavigationBar.appearance()
-
+//    var navigationBarAppearace = UINavigationBar.appearance()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        UINavigationBar.appearance().barTintColor = Colors.navBar()
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
-
-        self.navBarTitle.title = "Catalogue"
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
         
-        self.viewAll1Label.setTitleColor(Colors.navBar(), for: .normal)
-        self.viewAllLabel2.setTitleColor(Colors.navBar(), for: .normal)
-        self.viewAllLabel3.setTitleColor(Colors.navBar(), for: .normal)
+        customNavigationBar()
 
         // Do any additional setup after loading the view, typically from a nib.
         MoltinManager.instance().getProducts { (products) -> (Void) in
@@ -72,18 +64,44 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate, UIColle
         }
     }
     
-    override var prefersStatusBarHidden: Bool {
-        return true
+    func customNavigationBar() {
+        
+        // Presents a custom native NavigationBar
+        navigationController?.navigationBar.barTintColor = Colors.navBar()
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+        
+        navigationItem.title = "Catalog"
+
+        //Cart Button
+//        let cartButton = UIButton(type: .system)
+//        cartButton.setImage(UIImage(named: "shoppingbag"), for: .normal)
+//        cartButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "shoppingbag"), style: .done, target: nil, action: #selector(sendUserToCart))
+        
+//        UINavigationBar.appearance().barTintColor = Colors.navBar()
+//        self.navigationController?.setNavigationBarHidden(false, animated: true)
+
+//        self.viewAll1Label.setTitleColor(Colors.navBar(), for: .normal)
+//        self.viewAllLabel2.setTitleColor(Colors.navBar(), for: .normal)
+//        self.viewAllLabel3.setTitleColor(Colors.navBar(), for: .normal)
     }
+    
+    @objc func sendUserToCart() {
+        print("send user to cart")
+        
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    
-
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.bodySkincareProducts.count
     }
@@ -132,13 +150,11 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate, UIColle
         }
     }
     
-    
-    
-    
     @IBAction func viewAll1Pressed(_ sender: Any) {
         let Storyboard = UIStoryboard.init(name: "Main", bundle: nil)
         let listController = Storyboard.instantiateViewController(withIdentifier:"ProductList") as? ProductListViewController
         listController?.productList = self.bodySkincareProducts
+        
         self.present(listController!, animated: true, completion: nil)
     }
     @IBAction func viewAll2Pressed(_ sender: Any) {
@@ -153,5 +169,12 @@ class CatalogViewController: UIViewController, UICollectionViewDelegate, UIColle
         listController?.productList = self.facialProducts
         self.present(listController!, animated: true,completion: nil)
     }
+    
+     // MARK: - Navigation
+//     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "ProductList" {
+//            let segue = segue.destination as! ProductListViewController
+//        }
+//     }
     
 }

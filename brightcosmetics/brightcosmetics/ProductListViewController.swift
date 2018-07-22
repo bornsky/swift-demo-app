@@ -18,17 +18,24 @@ class ProductListViewController: UIViewController, UICollectionViewDelegate, UIC
     @IBOutlet weak var titleLabel: UINavigationBar!
     
     override func viewDidLoad() {
-        UINavigationBar.appearance().barTintColor = Colors.navBar()
+//        UINavigationBar.appearance().barTintColor = Colors.navBar()
 
         super.viewDidLoad()
         //may be worth fetching the products via catalouge filter
+        
+        // Gives user the status bar with a custom NavigationBar
+//        navigationController?.navigationBar.barTintColor = Colors.navBar()
+//        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+//
+//        navigationItem.title = self.productList[0].categories![0].name
+        
         self.titleLabel.topItem?.title = self.productList[0].categories![0].name
     }
 
     
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
+//    override var prefersStatusBarHidden: Bool {
+//        return true
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

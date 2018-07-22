@@ -129,6 +129,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A5631CF20F6E6610034DCCF /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				98D5953220D04B25008E5434 /* CollectionCatalogViewCell.swift */,
+				98E8A1FD20D8535C006C7081 /* ProductCatalogViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		4721478822F0DBA59EE06983 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,8 +178,7 @@
 				98D5953020D049D7008E5434 /* CatalogViewController.swift */,
 				98E8A1C420D82B81006C7081 /* ProductListViewController.swift */,
 				98E8A1C620D831AD006C7081 /* ProductDetailViewController.swift */,
-				98D5953220D04B25008E5434 /* CollectionCatalogViewCell.swift */,
-				98E8A1FD20D8535C006C7081 /* ProductCatalogViewCell.swift */,
+				2A5631CF20F6E6610034DCCF /* Cells */,
 				98E8A1C220D8275F006C7081 /* Colors.swift */,
 				98D5950620D03EFA008E5434 /* Main.storyboard */,
 				98E8A1EE20D83755006C7081 /* CheckoutFlow */,
